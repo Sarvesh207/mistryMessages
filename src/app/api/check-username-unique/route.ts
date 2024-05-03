@@ -2,7 +2,6 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user";
 import { z } from "zod";
 import { usernameValidation } from "@/schemas/signUpSchema";
-import { Six_Caps } from "next/font/google";
 
 const UsernameValidationSchema = z.object({
   username: usernameValidation,
@@ -34,7 +33,7 @@ export async function GET(request: Request) {
               : "Invalid query paramaters",
         },
         {
-          status: 400,
+          status: 401,
         }
       );
     }
@@ -61,7 +60,7 @@ export async function GET(request: Request) {
     return Response.json(
       {
         success: true,
-        message: "Username is avilable",
+        message: "Username is unique",
       },
       {
         status: 400,
