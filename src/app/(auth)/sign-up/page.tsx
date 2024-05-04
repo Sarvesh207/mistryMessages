@@ -89,7 +89,7 @@ const page = () => {
       let errorMessage = axiosError.response?.data.message;
 
       toast({
-        title: "Success",
+        title: "Signup failed",
         description: errorMessage,
         variant: "destructive",
       });
