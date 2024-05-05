@@ -7,7 +7,13 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { username, code } = await request.json();
+    const requestBody = await request.json();
+    console.log(requestBody)
+
+    const username = requestBody.username;
+    const code = requestBody.code;
+
+    console.log(username, code);
     const decodedUsername = decodeURIComponent(username);
     const user = await UserModel.findOne({ username: decodedUsername });
     if (!user) {
@@ -50,15 +56,15 @@ export async function POST(request: Request) {
         }
       );
     } else {
-        return Response.json(
-            {
-              success: false,
-              message: "Inncorrect verification code",
-            },
-            {
-              status: 400,
-            }
-          );
+      return Response.json(
+        {
+          success: false,
+          message: "Inncorrect verification code",
+        },
+        {
+          status: 400,
+        }
+      );
     }
   } catch (error) {
     console.log("Error verifying user", error);
