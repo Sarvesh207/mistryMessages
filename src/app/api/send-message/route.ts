@@ -34,33 +34,30 @@ export async function POST(request: Request) {
         }
       );
     }
-    const newMessage = { content, createdAt: new Date() }
+    const newMessage = { content, createdAt: new Date() };
 
-    user.messages.push(newMessage  as Message) 
+    user.messages.push(newMessage as Message);
     await user.save();
 
     return Response.json(
-        {
-          success: true,
-          message: "Message send successfully",
-        },
-        {
-          status: 401,
-        }
-      );
-
-
-    
+      {
+        success: true,
+        message: "Message send successfully",
+      },
+      {
+        status: 401,
+      }
+    );
   } catch (error) {
-    console.log("Error adding messages", error)
+    console.log("Error adding messages", error);
     return Response.json(
-        {
-          success: false,
-          message: "Internal server error",
-        },
-        {
-          status: 500,
-        }
-      );
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

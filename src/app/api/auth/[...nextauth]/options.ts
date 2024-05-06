@@ -1,8 +1,8 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import { Awaitable, NextAuthOptions, RequestInternal, User } from "next-auth";
-import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user";
+import bcrypt from "bcryptjs";
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -26,6 +26,8 @@ export const authOptions: NextAuthOptions = {
               },
             ],
           });
+
+          console.log(user)
 
           if (!user) {
             throw new Error("No user found with this email");

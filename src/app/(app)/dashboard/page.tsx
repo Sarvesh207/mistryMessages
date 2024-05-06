@@ -1,4 +1,5 @@
-'use client'
+"use client";
+import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -60,6 +61,7 @@ const page = () => {
       setIsSwitchLoading(false);
       try {
         const response = await axios.get("/api/get-messages");
+        console.log(response)
         setMessages(response.data.message || []);
         if (refresh) {
           toast({
@@ -69,6 +71,7 @@ const page = () => {
         }
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
+        console.log(axiosError)
         toast({
           title: "Error",
           description:
@@ -111,8 +114,6 @@ const page = () => {
       });
     }
   };
-
-  
 
   if (!session || !session.user) {
     return <div> Please Login</div>;

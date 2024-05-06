@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -32,15 +32,12 @@ const page = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof singInSchema>) => {
-    const result = await signIn("credentials", {
+    const result = await signIn("credentials",{
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
 
-    //  TODO : console result
-
-    console.log(result);
 
     if (result?.error) {
       if (result.error === "CredentialsSignIn") {
@@ -56,12 +53,12 @@ const page = () => {
           variant: "destructive",
         });
       }
-
-      if (result?.url) {
-        router.replace("/dashboard");
-      }
+    }
+    if (result?.url) {
+      router.replace("/dashboard");
     }
   };
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -107,9 +104,7 @@ const page = () => {
                 )}
               />
 
-              <Button type="submit" >
-                Signin
-              </Button>
+              <Button type="submit">Signin</Button>
             </form>
           </Form>
           <div className="text-center mt-4">
