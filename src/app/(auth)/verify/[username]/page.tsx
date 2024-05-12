@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { serialize } from "v8";
 import { Loader2 } from "lucide-react";
 
-export const VerifyAccount = () => {
+const VerifyAccount = () => {
   const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();
@@ -104,3 +104,4 @@ export const VerifyAccount = () => {
   );
 };
 
+export default VerifyAccount;
