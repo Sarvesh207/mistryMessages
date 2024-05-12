@@ -61,7 +61,6 @@ const page = () => {
       setIsSwitchLoading(false);
       try {
         const response = await axios.get("/api/get-messages");
-        console.log(response)
         setMessages(response.data.message || []);
         if (refresh) {
           toast({
@@ -71,7 +70,6 @@ const page = () => {
         }
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
-        console.log(axiosError)
         toast({
           title: "Error",
           description:
@@ -95,9 +93,10 @@ const page = () => {
 
   const handleSwitchChange = async () => {
     try {
-      const response = await axios.post<ApiResponse>("/api/accept-messgaes", {
+      const response = await axios.post<ApiResponse>("/api/accept-messages", {
         acceptMessages: !acceptMessages,
       });
+
       setValue("acceptMessages", !acceptMessages);
       toast({
         title: response.data.message,

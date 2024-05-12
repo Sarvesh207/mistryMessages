@@ -33,6 +33,7 @@ export async function POST(request: Request) {
       { new: true }
     );
 
+
     if (!updatedUser) {
       return Response.json(
         {
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         success: true,
-        message: "Message acceptance ststus updated successfully",
+        message: "Message acceptance status updated successfully",
         updatedUser,
       },
       {
@@ -56,7 +57,6 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    console.log("Failed to update user status to accept messsages");
     return Response.json(
       {
         success: false,
@@ -69,60 +69,53 @@ export async function POST(request: Request) {
   }
 }
 
+
 export async function GET(request: Request) {
+  // Connect to the database
   await dbConnect();
 
+  // Get the user session
   const session = await getServerSession(authOptions);
 
-  const user: User = session?.user as User;
-  if (!session || !session.user) {
+  const user = session?.user;
+  // Check if the user is authenticated
+  if (!session || !user) {
     return Response.json(
-      {
-        success: false,
-        message: "Not Authenticated",
-      },
-      {
-        status: 400,
-      }
+      { success: false, message: "Not authenticated" },
+      { status: 401 }
     );
   }
-  const userId = user._id;
 
   try {
-    const foundUser = await UserModel.findById(userId);
+    // Retrieve the user from the database using the ID
+
+    const foundUser = await UserModel.findById(user._id);
+
 
     if (!foundUser) {
+
+      // User not found
       return Response.json(
-        {
-          success: false,
-          message: "user not found",
-        },
-        {
-          status: 404,
-        }
+        { success: false, message: "User not found" },
+        { status: 404 }
       );
     }
+
+
+    // Return the user's message acceptance status
 
     return Response.json(
       {
         success: true,
-        isAcceptingMessages: foundUser.isAcceptingMessage,
-        message: "User accepting messages",
+        isAcceptingMessage: foundUser.isAcceptingMessage,
       },
-      {
-        status: 200,
-      }
+      { status: 200 }
     );
   } catch (error) {
-    console.log("Failed to update user status to accept messsages");
+    console.error("Error retrieving message acceptance status:", error);
     return Response.json(
-      {
-        success: false,
-        message: "Error is getting accceptence ststus",
-      },
-      {
-        status: 500,
-      }
+      { success: false, message: "Error retrieving message acceptance status" },
+      { status: 500 }
     );
   }
 }
