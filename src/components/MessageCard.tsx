@@ -25,7 +25,7 @@ import { Button } from "./ui/button";
 import { X } from "lucide-react";
 import { Message } from "@/model/user";
 import axios from "axios";
-import { ApiResponse } from "@/types/apiResponse";
+import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "./ui/use-toast";
 
 type MessageCardProps = {

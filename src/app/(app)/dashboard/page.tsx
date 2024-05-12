@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { Message, User } from "@/model/user";
 import { AcceptMessageSchema } from "@/schemas/acceptMessageSchema";
-import { ApiResponse } from "@/types/apiResponse";
+import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { Axios, AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const page = () => {
+const UserDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -192,4 +192,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default UserDashboard
