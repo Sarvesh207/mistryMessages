@@ -9,7 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
-import { ApiResponse } from "@/types/apiResponse";
+import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
   FormControl,
@@ -72,7 +72,6 @@ const page = () => {
     setIsSubmitting(true);
     try {
       //  TODO: console.log(data)
-      console.log(data);
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
 
       toast({

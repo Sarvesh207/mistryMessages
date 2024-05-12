@@ -1,6 +1,6 @@
 import { resend } from "@/lib/resend";
 import VerificationEmail from "../../emails/VerificationEmail";
-import { ApiResponse } from "@/types/apiResponse";
+import { ApiResponse } from "@/types/ApiResponse";
 export async function sendVarificationEmail(
     email:string,
     username:string,
@@ -13,7 +13,7 @@ export async function sendVarificationEmail(
             subject: 'Mystry Message | Verification code',
             react: VerificationEmail({ username, otp:verifyCode }),
           });
-        return {success:true, message:'Verificaton email successful'}
+        return {success:true, message:'Verificaton email send successfully'}
 
     } catch (emailError) {
         console.error("Error sending verification email", emailError)

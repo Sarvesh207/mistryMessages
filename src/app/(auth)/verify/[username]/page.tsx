@@ -11,27 +11,31 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import { verifySchema } from "@/schemas/verifySchema";
-import { ApiResponse } from "@/types/apiResponse";
+import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { serialize } from "v8";
+import { Loader2 } from "lucide-react";
 
 const VerifyAccount = () => {
   const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();
+  const[isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
   });
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+    setIsSubmitting(true)
     try {
       const response = await axios.post(`/api/verify-code`, {
         username: params.username,
@@ -44,6 +48,7 @@ const VerifyAccount = () => {
       });
 
       router.replace("/sign-in");
+
     } catch (error) {
       console.error("Error in verifying user", error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -53,6 +58,8 @@ const VerifyAccount = () => {
         description: axiosError.response?.data.message,
         variant: "destructive",
       });
+    } finally{
+        setIsSubmitting(false)
     }
   };
   return (
@@ -80,7 +87,16 @@ const VerifyAccount = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
+                  </>
+                ) : (
+                  "Submit"
+                )}
+            </Button>
           </form>
         </Form>
       </div>

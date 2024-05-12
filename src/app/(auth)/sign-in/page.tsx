@@ -16,12 +16,14 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const page = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof singInSchema>>({
     resolver: zodResolver(singInSchema),
@@ -32,12 +34,13 @@ const page = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof singInSchema>) => {
-    const result = await signIn("credentials",{
+    setIsSubmitting(true);
+    const result = await signIn("credentials", {
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
-
+   
 
     if (result?.error) {
       if (result.error === "CredentialsSignIn") {
@@ -56,9 +59,10 @@ const page = () => {
     }
     if (result?.url) {
       router.replace("/dashboard");
+      setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -104,7 +108,16 @@ const page = () => {
                 )}
               />
 
-              <Button type="submit">Signin</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
+                  </>
+                ) : (
+                  "Signin"
+                )}
+              </Button>
             </form>
           </Form>
           <div className="text-center mt-4">
