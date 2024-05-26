@@ -13,7 +13,6 @@ export async function POST(request: Request) {
     const username = requestBody.username;
     const code = requestBody.code;
 
-    console.log(username, code);
     const decodedUsername = decodeURIComponent(username);
     const user = await UserModel.findOne({ username: decodedUsername });
     if (!user) {
@@ -23,7 +22,7 @@ export async function POST(request: Request) {
           message: "User not found",
         },
         {
-          status: 500,
+          status: 400,
         }
       );
     }

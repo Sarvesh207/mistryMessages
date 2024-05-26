@@ -40,7 +40,6 @@ const SignInForm = () => {
       identifier: data.identifier,
       password: data.password,
     });
-   
 
     if (result?.error) {
       if (result.error === "CredentialsSignIn") {
@@ -55,6 +54,7 @@ const SignInForm = () => {
           description: result.error,
           variant: "destructive",
         });
+        setIsSubmitting(false);
       }
     }
     if (result?.url) {
@@ -131,6 +131,15 @@ const SignInForm = () => {
                 Sign up
               </Link>
             </p>
+            <p>
+              Forgot Password? 
+              <Link
+                href="/forgot-password"
+                className="text-blue-600 hover:text-blue-800"
+              > {" "}
+                Forgot Password
+              </Link>
+            </p>
           </div>
         </div>
       </div>
@@ -138,4 +147,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm
+export default SignInForm;
